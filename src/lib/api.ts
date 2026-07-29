@@ -1,25 +1,26 @@
 export interface ApiStatus {
-  message: string;
+    message: string;
 }
 
-export interface MySettings {
-  aiCoachName: string;
+export interface Me {
+    aiCoachName?: string;
+    name?: string;
 }
 
 export async function getApiStatus(): Promise<ApiStatus> {
-  return getJson<ApiStatus>('/api/');
+    return getJson<ApiStatus>('/api/');
 }
 
-export async function getMySettings(): Promise<MySettings> {
-  return getJson<MySettings>('/api/rest/settings/me');
+export async function getMe(url = '/api/me'): Promise<Me> {
+    return getJson<Me>(url);
 }
 
 async function getJson<T>(url: string): Promise<T> {
-  const response = await fetch(url);
+    const response = await fetch(url);
 
-  if (!response.ok) {
-    throw new Error(`API request failed with ${response.status}`);
-  }
+    if (!response.ok) {
+        throw new Error(`API request failed with ${response.status}`);
+    }
 
-  return response.json() as Promise<T>;
+    return response.json() as Promise<T>;
 }
