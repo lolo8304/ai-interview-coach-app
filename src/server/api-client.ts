@@ -29,12 +29,14 @@ export async function forwardApiRequest({
   }
 
   try {
-    const upstreamResponse = await fetch(targetUrl, {
+    const requestInit = {
       method: req.method,
       headers,
       body: hasRequestBody(req.method) ? req : undefined,
       duplex: hasRequestBody(req.method) ? 'half' : undefined,
-    } as RequestInit & { duplex?: 'half' });
+    } as unknown as RequestInit & { duplex?: 'half' };
+
+    const upstreamResponse = await fetch(targetUrl, requestInit);
 
     res.statusCode = upstreamResponse.status;
     upstreamResponse.headers.forEach((value, key) => {

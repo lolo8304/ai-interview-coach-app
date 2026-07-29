@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { forwardApiRequest } from '../src/server/api-client';
+import { forwardApiRequest } from '../src/server/api-client.js';
 
 export default function handler(
   req: IncomingMessage,
