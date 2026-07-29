@@ -1,12 +1,11 @@
 import useSWR from 'swr';
 import {Activity, BadgeCheck, RefreshCw} from 'lucide-react';
-import {CoachName} from './components/CoachName';
 import {getApiStatus} from './lib/api';
 import {useMe} from "./hooks/useMe";
 
 function App() {
     const {data, error, isLoading, mutate} = useSWR('api-status', getApiStatus);
-    const {data: me, error: errorMe, isLoading: isLoadingMe} = useMe();
+    const {data: me} = useMe();
 
     return (
         <main className="min-h-screen bg-[#f7f8fb] text-[#17202f]">

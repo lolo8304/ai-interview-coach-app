@@ -13,7 +13,7 @@ export async function forwardApiRequest({
   req,
   res,
 }: ForwardApiRequestOptions): Promise<void> {
-  const targetUrl = new URL(req.url ?? '/', apiBaseUrl);
+  const targetUrl = new URL(getUpstreamPath(req.url), apiBaseUrl);
   const headers = new Headers();
 
   for (const [key, value] of Object.entries(req.headers)) {
@@ -52,4 +52,16 @@ export async function forwardApiRequest({
 
 function hasRequestBody(method: string | undefined): boolean {
   return method !== undefined && !['GET', 'HEAD'].includes(method);
+}
+
+function getUpstreamPath(url: string | undefined): string {
+  const requestUrl = url ?? '/';
+
+  if (requestUrl === '/api') {
+    return '/';
+  }
+
+  return requestUrl.startsWith('/api/')
+    ? requestUrl.slice('/api'.length)
+    : requestUrl;
 }
